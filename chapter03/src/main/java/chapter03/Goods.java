@@ -12,6 +12,16 @@ public class Goods {
 		Goods.countOfGoods = Goods.countOfGoods +1;
 		//같은 클래스 내에서는 Goods. 명시하지 않아도 됨 
 	}
+	
+	public Goods(String name, int price, int cntStock, int cntSold) {
+		this.name = name;
+		this.price =price;
+		this.cntStock = cntStock;
+		this.cntSold = cntSold;
+		//코드 중복 발생*
+		countOfGoods = Goods.countOfGoods +1;
+	}
+	
 	public int calcDiscountPrice(float discountRate) {
 		//명시적 캐스팅 (큰->작은)
 //		int i = (int)4.5;
