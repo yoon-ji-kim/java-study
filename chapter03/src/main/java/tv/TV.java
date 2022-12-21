@@ -35,9 +35,9 @@ public class TV {
 			channel = 1;
 		}
 		if(up) {
-			this.channel = channel+1;			
+			channel = channel+1;			
 		}else {
-			this.channel = channel-1;
+			channel = channel-1;
 		}
 	}
 	public void volume(int volume) {
@@ -57,9 +57,9 @@ public class TV {
 			volume = 100;
 		}
 		if(up) {
-			this.volume = volume +1;
+			volume = volume +1;
 		}else {
-			this.volume = volume -1;
+			volume = volume -1;
 		}
 	}
 	

@@ -5,7 +5,6 @@ public class Goods {
 	private int price;
 	private int countStock;
 	public Goods(String name, int price, int countStock) {
-		super();
 		this.name = name;
 		this.price = price;
 		this.countStock = countStock;
