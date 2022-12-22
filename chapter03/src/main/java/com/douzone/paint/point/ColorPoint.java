@@ -1,4 +1,4 @@
-package paint;
+package com.douzone.paint.point;
 
 public class ColorPoint extends Point {
 //부모의 기본 생성자가 없어서 오류 발생!

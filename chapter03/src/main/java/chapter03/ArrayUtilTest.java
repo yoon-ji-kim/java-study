@@ -1,11 +1,17 @@
 package chapter03;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 
 public class ArrayUtilTest {
 
 	public static void main(String[] args) {
 		//테스트 코드 TDD
 		int[] a = {10, 20, 30, 40};
+		List list = null;
+		Stack s = null;
+		Queue q = null;
 //		int[] a = new int[4];
 //		a[0] = 10;
 //		a[1] = 20;
