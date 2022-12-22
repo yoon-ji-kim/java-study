@@ -21,8 +21,6 @@ public class ArrayUtil {
 
 	public static int[] concat(int[] is, int[] is2) {
 		int[] result = new int[is.length+is2.length];
-//		0,1,2    0,1
-//		1,2,3    4,5
 		for(int i=0; i<is.length; i++) {
 			result[i] = is[i];
 		}
