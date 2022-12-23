@@ -1,5 +1,6 @@
 package chapter04;
 
+import java.util.Objects;
 
 public class Point{
 	private int x;
@@ -46,5 +47,40 @@ public class Point{
 	@Override
 	public String toString() {
 		return "Point [x=" + x + ", y=" + y + "]";
+	}
+//  직접 작성 xxx source generate 이용	
+//	@Override
+//	public boolean equals(Object obj) {
+//		if(this == obj) {
+//			return true;
+//		}
+//		if(obj == null) {
+//			return false;
+//		}
+//		//obj가 null도 아니고 동일하지 않음 -> 타입 검사
+//		if(obj.getClass() != this.getClass()) {
+//			return false;
+//		}
+//		Point other = (Point)obj; //명시적 캐스팅
+//		
+//		return x == other.x && y == other.y;
+//	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(x, y);
+		//31씩 곱해짐 
+		//** 내용을 가지고 해싱함 -> 내용이 같으면 해시코드가 같을 수! 있음 
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Point other = (Point) obj;
+		return x == other.x && y == other.y;
 	}
 }

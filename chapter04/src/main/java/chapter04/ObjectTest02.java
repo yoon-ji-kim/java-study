@@ -11,9 +11,10 @@ public class ObjectTest02 {
 		System.out.println(p2 == p3);  //true
 		
 //		equals 메소드: 두 객체의 동질성 비교(내용 비교)
-		System.out.println(p1.equals(p2));  //false
+//					 부모 클래스 Object의 기본 구현은 동일성(==) 비교와 같다.
+		System.out.println(p1.equals(p2));  //false  --> Point equals Override -> true
 		System.out.println(p2.equals(p3));  //true
-		
+//		자료구조는 동질성!!**
 	}
 
 }
