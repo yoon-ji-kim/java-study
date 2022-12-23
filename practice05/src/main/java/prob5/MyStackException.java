@@ -1,7 +1,12 @@
 package prob5;
 
-public class MyStackException extends RuntimeException {
+public class MyStackException extends Exception {
+
+	private static final long serialVersionUID = 1L;
 	public MyStackException() {
-		System.out.println("Prob5.MyStackException: stack is empty");
+		super("Prob5.MyStackException: stack is empty");
+	}
+	public MyStackException(String msg) {
+		super(msg);
 	}
 }

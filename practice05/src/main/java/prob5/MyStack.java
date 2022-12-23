@@ -25,7 +25,7 @@ public class MyStack {
 		if(idx <0) return true;
 		else return false;
 	}
-	public String pop() {
+	public String pop() throws MyStackException {
 		if(idx<0) {
 			throw new MyStackException();
 		}
