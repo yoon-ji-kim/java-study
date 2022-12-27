@@ -1,4 +1,4 @@
-package prob01;
+package collection;
 
 import java.util.Objects;
 
@@ -15,6 +15,11 @@ public class Gugudan {
 	}
 
 	@Override
+	public String toString() {
+		return "Gugudan [lValue=" + lValue + ", rValue=" + rValue + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		return Objects.hash(lValue * rValue);
 	}
@@ -28,12 +33,7 @@ public class Gugudan {
 		if (getClass() != obj.getClass())
 			return false;
 		Gugudan other = (Gugudan) obj;
-		return (lValue == other.lValue && rValue == other.rValue) || (lValue == other.rValue && rValue == other.lValue);
-//		|| (lValue == other.rValue && rValue == other.lValue)
-	}
-	
-	public int mul() {
-		return lValue * rValue;
+		return lValue * rValue == other.lValue * other.rValue;
 	}
 	
 }

@@ -3,8 +3,8 @@ package collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class HashSetTest {
-
+public class HashSetTest01 {
+// 집합, 중복 허락X, 순서가 없음
 	public static void main(String[] args) {
 		Set<String> s = new HashSet<>();
 		
