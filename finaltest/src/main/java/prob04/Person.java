@@ -6,6 +6,10 @@ public class Person {
 	private String name;
 	
 	/* 코드 작성 */
+	public Person() {
+		age = 12;
+		name = "";
+	}
 	public Person(String name) {
 		this.age = 12;
 		this.name = name;
