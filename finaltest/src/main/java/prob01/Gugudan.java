@@ -28,8 +28,8 @@ public class Gugudan {
 		if (getClass() != obj.getClass())
 			return false;
 		Gugudan other = (Gugudan) obj;
-		return (lValue == other.lValue && rValue == other.rValue) || (lValue == other.rValue && rValue == other.lValue);
-//		|| (lValue == other.rValue && rValue == other.lValue)
+//		return (lValue == other.lValue && rValue == other.rValue) || (lValue == other.rValue && rValue == other.lValue);
+		return lValue * rValue == other.lValue*other.rValue;
 	}
 	
 	public int mul() {
