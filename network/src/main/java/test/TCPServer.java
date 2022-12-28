@@ -9,7 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class TCPServer {
-//틀만들기
+//Server 틀 만들기
 	public static void main(String[] args) {
 		ServerSocket serverSocket = null;
 		try {
@@ -42,6 +42,7 @@ public class TCPServer {
 					byte[] buffer = new byte[256];
 					//blocking
 					int readByteCount = is.read(buffer);
+					//클라이언트가 정상적으로 종료한 경우(close()호출한 경우
 					if(readByteCount == -1) {
 						System.out.println("[server] closed by client");
 						break;
@@ -49,6 +50,9 @@ public class TCPServer {
 					//화면 출력 byte -> 문자로 encoding  개수만큼
 					String data = new String(buffer, 0, readByteCount, "UTF-8");
 					System.out.println("[server] received: "+data);
+					
+					// 6. 데이터 쓰기 (ecoing)
+					os.write(data.getBytes("utf-8"));  //byte로 쓰기
 				}				
 			} catch(IOException e) {
 				System.out.println("[server] error"+e);
