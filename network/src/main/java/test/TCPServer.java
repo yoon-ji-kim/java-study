@@ -51,7 +51,7 @@ public class TCPServer {
 					String data = new String(buffer, 0, readByteCount, "UTF-8");
 					System.out.println("[server] received: "+data);
 					
-					// 6. 데이터 쓰기 (ecoing)
+					// 6. 데이터 쓰기 (echoing)
 					os.write(data.getBytes("utf-8"));  //byte로 쓰기
 				}				
 			} catch(IOException e) {
