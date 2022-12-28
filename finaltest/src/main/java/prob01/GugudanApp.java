@@ -54,11 +54,15 @@ public class GugudanApp {
 		int[] boardNumbers = new int[COUNT_ANSWER_NUMBER];
 		//Set에 넣어 중복된 수 없이 구하기
 		Set<Gugudan> set = new HashSet<>();
-		while(set.size() <COUNT_ANSWER_NUMBER) {
+//		while(set.size() <COUNT_ANSWER_NUMBER) {
+//			Gugudan gugudan = new Gugudan(randomize(1, 9), randomize(1, 9));
+//			if(!set.equals(gugudan)) {  --->set이라서 할 필요 없음
+//				set.add(gugudan);				
+//			}
+//		}
+		while(set.size() < COUNT_ANSWER_NUMBER) {
 			Gugudan gugudan = new Gugudan(randomize(1, 9), randomize(1, 9));
-			if(!set.equals(gugudan)) {
-				set.add(gugudan);				
-			}
+			set.add(gugudan);
 		}
 		int idx =0;
 		for(Gugudan gugudan : set) {
