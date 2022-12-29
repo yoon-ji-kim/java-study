@@ -45,7 +45,6 @@ public class RequestHandler extends Thread {
 					break;
 				}
 			}
-//			consoleLog(request);
 			// 예제 응답입니다.
 			// 서버 시작과 테스트를 마친 후, 주석 처리 합니다.            encoding
 //			outputStream.write( "HTTP/1.1 200 OK\r\n".getBytes( "UTF-8" ) );
@@ -57,9 +56,10 @@ public class RequestHandler extends Thread {
 			//request 파싱하기
 			//요청을 쪼개기 GET / HTTP/1.1   => " "로 구분, 3개, 대문자로 보내는 것으로 약속
 			String[] tokens = request.split(" ");
+			consoleLog(request);
 			if("GET".equals(tokens[0])) {
 				//GET이면 
-				consoleLog(request);
+//				consoleLog(request);
 				//정적자원을 응답           응답,         url,     프로토콜
 				//                     HTTP/1.1 200 OK
 				responseStaticResource(outputStream,tokens[1], tokens[2]);
@@ -67,7 +67,7 @@ public class RequestHandler extends Thread {
 			}else {
 				//method가 POST, PUT, DELETE, HEAD, CONNECT 일때,
 				//SimpleHttpServer에서는 무시하기(400 Bad Request로 응답하기) --> 응답안하면 안됨, response해줘야함!
-//				HTTP/1.1 400 Bad
+//				HTTP/1.1 400 Bad  (user/login)
 				response400Error(outputStream, tokens[2]);
 				
 			}
@@ -87,10 +87,6 @@ public class RequestHandler extends Thread {
 		}			
 	}
 
-	private void response400Error(OutputStream outputStream, String protocol) {
-		
-	}
-
 	private void responseStaticResource 
 	(OutputStream outputStream, String url, String protocol) throws IOException{
 		//default(welcome) 파일 세팅
@@ -102,18 +98,35 @@ public class RequestHandler extends Thread {
 		//읽기                  
 		File file = new File(DOCUMENT_ROOT +url);
 		//NIO(New IO) .readAllBytes(path)  byte로 통째로 한번에 다읽음
+		if(!file.exists()) {
+			response404Error(outputStream, protocol);
+			return;
+		}
 		//응답의 바디에 채울 내용
 		byte[] body=Files.readAllBytes(file.toPath());
 		//~? css 적용하려고 추가했는데 Files.probeContentType 찾아보기
 		String contentType =  Files.probeContentType(file.toPath());
 		
 		//응답
+		outputStream.write( (protocol+" 200 OK\r\n").getBytes( "UTF-8" ) );
 		outputStream.write( "HTTP/1.1 200 OK\r\n".getBytes( "UTF-8" ) );
 		outputStream.write(("Content-Type:"+contentType+"; charset=utf-8\r\n").getBytes( "UTF-8" ) );
 		outputStream.write( "\r\n".getBytes() );
 		//바디
 		outputStream.write( body);
 		
+	}
+	private void response400Error(OutputStream outputStream, String protocol) {
+		//HTTP/1.1 400 Bad Request
+		//Content-Type:....; charset = ~~~ )
+		// \r\n
+		// ....내용
+	}
+	private void response404Error(OutputStream outputStream, String protocol) {
+		//HTTP/1.1 404 Not Found
+		//Content-Type:....; charset = ~~~ )
+		// \r\n
+		// ....내용
 	}
 
 	public void consoleLog( String message ) {
