@@ -42,7 +42,7 @@ public class LoginMain {
 					return;
 				}else {
 					throw new PasswordDismatchException();
-				}z
+				}
 			}
 		}
 		throw new UserNotFoundException();
