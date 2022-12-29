@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class TCPServer {
 //Server 틀 만들기
@@ -20,7 +21,8 @@ public class TCPServer {
 			// IP Address는 일반적으로 0.0.0.0으로 사용한다
 			// -> 특정 호스트 IP에 바인딩 하지 않는다. 최소 2개 이상 될 수 있기 때문에 구애받지 않기 위해서
 //			serverSocket.bind(new InetSocketAddress(InetAddress.getLocalHost().getHostAddress() , 5000));
-			serverSocket.bind(new InetSocketAddress("0.0.0.0" , 5000));
+			//Queue 최대 개수 지정 (Accept 처리하는 동안 대기하는 애들)
+			serverSocket.bind(new InetSocketAddress("0.0.0.0" , 5000),10);
 			
 			// 3. Accept
 			Socket socket = serverSocket.accept(); //프로그램은 blocking된다(멈춤)
@@ -54,6 +56,8 @@ public class TCPServer {
 					// 6. 데이터 쓰기 (echoing)
 					os.write(data.getBytes("utf-8"));  //byte로 쓰기
 				}				
+			} catch(SocketException ex) {
+				System.out.println("[server] suddenly closed by client");
 			} catch(IOException e) {
 				System.out.println("[server] error"+e);
 			}finally {

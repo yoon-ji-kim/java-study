@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class EchoServer {
 	public static final int PORT = 8000;
@@ -47,7 +48,9 @@ public class EchoServer {
 					pw.println(data);  //개행해서 보내기
 //					pw.print(data + "\n");
 				}				
-			} catch(IOException e) {
+			} catch(SocketException ex) {
+				System.out.println("[server] suddenly closed by client");
+			}  catch(IOException e) {
 				log("error"+e);
 			}finally {
 				try {
@@ -58,7 +61,7 @@ public class EchoServer {
 					ex.printStackTrace();
 				}
 			}
-		} catch (IOException e) {
+		}catch (IOException e) {
 			log("error: " + e);
 		} finally {
 			try {
