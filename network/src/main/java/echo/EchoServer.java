@@ -1,16 +1,9 @@
 package echo;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 
 public class EchoServer {
 	public static final int PORT = 8000;
@@ -21,9 +14,12 @@ public class EchoServer {
 			serverSocket = new ServerSocket();
 			serverSocket.bind(new InetSocketAddress("0.0.0.0" , PORT));
 			log("[starts....[port :"+ PORT+"]");      //서버가 작동하는지 알려줌
-			Socket socket = serverSocket.accept();
-			
-			//remote 주소랑 port 정보 가져오기
+			while(true) {
+				Socket socket = serverSocket.accept();
+				new EchoRequestHandler(socket).start();				
+			}
+/*			
+  			//remote 주소랑 port 정보 가져오기
 			InetSocketAddress inetRemoteSocketAddress = (InetSocketAddress)socket.getRemoteSocketAddress();
 			String remoteHostAddress = inetRemoteSocketAddress.getAddress().getHostAddress();
 			int remotePort = inetRemoteSocketAddress.getPort();
@@ -61,6 +57,7 @@ public class EchoServer {
 					ex.printStackTrace();
 				}
 			}
+*/
 		}catch (IOException e) {
 			log("error: " + e);
 		} finally {
@@ -75,6 +72,6 @@ public class EchoServer {
 	}
 	
 	private static void log(String message) {
-		System.out.println("[EchoServer] " + message);
+		System.out.println("[EchoServer#"+ Thread.currentThread().getId()+"] " + message);
 	}
 }
