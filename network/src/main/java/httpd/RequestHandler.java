@@ -45,16 +45,17 @@ public class RequestHandler extends Thread {
 					break;
 				}
 			}
+/*
 			// 예제 응답입니다.
 			// 서버 시작과 테스트를 마친 후, 주석 처리 합니다.            encoding
 //			outputStream.write( "HTTP/1.1 200 OK\r\n".getBytes( "UTF-8" ) );
 //			outputStream.write( "Content-Type:text/html; charset=utf-8\r\n".getBytes( "UTF-8" ) );
 //			outputStream.write( "\r\n".getBytes() );
 //			outputStream.write( "<h1>이 페이지가 잘 보이면 실습과제 SimpleHttpServer를 시작할 준비가 된 것입니다.</h1>".getBytes( "UTF-8" ) );
-			//요청처리
-			//메소드, URL,HTTP 버전은 뭔지, 
-			//request 파싱하기
-			//요청을 쪼개기 GET / HTTP/1.1   => " "로 구분, 3개, 대문자로 보내는 것으로 약속
+*/		
+			
+			//요청처리          GET / HTTP/1.1
+			//request 파싱하기 //메소드, URL,HTTP 버전은 뭔지 =>" "로 구분, 3개, 대문자로 보내는 것으로 약속
 			String[] tokens = request.split(" ");
 			consoleLog(request);
 			if("GET".equals(tokens[0])) {
@@ -108,25 +109,43 @@ public class RequestHandler extends Thread {
 		String contentType =  Files.probeContentType(file.toPath());
 		
 		//응답
+//		outputStream.write( "HTTP/1.1 200 OK\r\n".getBytes( "UTF-8" ) );
 		outputStream.write( (protocol+" 200 OK\r\n").getBytes( "UTF-8" ) );
-		outputStream.write( "HTTP/1.1 200 OK\r\n".getBytes( "UTF-8" ) );
 		outputStream.write(("Content-Type:"+contentType+"; charset=utf-8\r\n").getBytes( "UTF-8" ) );
 		outputStream.write( "\r\n".getBytes() );
 		//바디
 		outputStream.write( body);
 		
 	}
-	private void response400Error(OutputStream outputStream, String protocol) {
+	private void response400Error(OutputStream outputStream, String protocol) throws IOException {
 		//HTTP/1.1 400 Bad Request
 		//Content-Type:....; charset = ~~~ )
 		// \r\n
 		// ....내용
+		File file = new File(DOCUMENT_ROOT + "/error/400.html");
+		if(!file.exists()) {
+			response404Error(outputStream, protocol);
+			return;
+		}
+		byte[] body=Files.readAllBytes(file.toPath());
+		String contentType =  Files.probeContentType(file.toPath());
+		outputStream.write( (protocol+" 400 Bad Request\r\n").getBytes( "UTF-8" ) );
+		outputStream.write(("Content-Type:"+contentType+"; charset=utf-8\r\n").getBytes( "UTF-8" ) );
+		outputStream.write( "\r\n".getBytes() );
+		outputStream.write(body);
 	}
-	private void response404Error(OutputStream outputStream, String protocol) {
+	private void response404Error(OutputStream outputStream, String protocol) throws IOException {
 		//HTTP/1.1 404 Not Found
 		//Content-Type:....; charset = ~~~ )
 		// \r\n
 		// ....내용
+		File file = new File(DOCUMENT_ROOT + "/error/404.html");
+		byte[] body=Files.readAllBytes(file.toPath());
+		String contentType =  Files.probeContentType(file.toPath());
+		outputStream.write( (protocol+" 404 Not Found\r\n").getBytes( "UTF-8" ) );
+		outputStream.write(("Content-Type:"+contentType+"; charset=utf-8\r\n").getBytes( "UTF-8" ) );
+		outputStream.write( "\r\n".getBytes() );
+		outputStream.write(body);
 	}
 
 	public void consoleLog( String message ) {
