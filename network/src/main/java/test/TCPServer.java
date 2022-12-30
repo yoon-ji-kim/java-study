@@ -16,6 +16,9 @@ public class TCPServer {
 		try {
 			// 1. Server Socket 생성
 			serverSocket = new ServerSocket();
+			// 1-1. FIN_WAIT -> TIME_WAIT상태에서도 소켓 포트 할당이 가능하도록 하기 위해 설정 해둬야함
+							//서버가 포트를 끊어도 다시 사용할 수 있음
+			serverSocket.setReuseAddress(true);
 			// 2. binding (주소를 소켓에 붙이는 작업)
 			// Server Socket에 InetSocketAddress(IPAddress +Port)를 바인딩 한다.(붙인다)
 			// IP Address는 일반적으로 0.0.0.0으로 사용한다
@@ -52,7 +55,12 @@ public class TCPServer {
 					//화면 출력 byte -> 문자로 encoding  개수만큼
 					String data = new String(buffer, 0, readByteCount, "UTF-8");
 					System.out.println("[server] received: "+data);
-					
+						// 소켓 SO_TIMEOUT 옵션 테스트용
+						try {
+							Thread.sleep(3000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					// 6. 데이터 쓰기 (echoing)
 					os.write(data.getBytes("utf-8"));  //byte로 쓰기
 				}				
