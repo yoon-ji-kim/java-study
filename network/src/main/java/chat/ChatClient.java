@@ -14,11 +14,11 @@ public class ChatClient {
 	private static final String SERVER_IP = "0.0.0.0";
 
 	public static void main(String[] args) {
-		Scanner sc = null;
 		Socket socket = null;
+		Scanner sc = new Scanner(System.in);
 		try {
 			// 1. 키보드 연결
-			sc = new Scanner(System.in);
+//			sc = new Scanner(System.in);
 			// 2. socket 생성
 			socket = new Socket();
 			// 3. 연결
@@ -31,31 +31,33 @@ public class ChatClient {
 			// 5. join 프로토콜
 			System.out.print("닉네임>> ");
 			String nickname = sc.nextLine();
-			pw.println("join: " + nickname);
+			pw.println("join:" + nickname);
 			String response = br.readLine();
-			String[] tokens = response.split(":");
-			if(tokens[1].equals("OK")) {
+			if(response.equals("JOIN:OK")) {
 				// 6. ChatClientReceiveThread시작
 				new ChatClientThread(socket).start();
 			}else {
-				log("참여 실패");
+//				JOIN:OK 아닐 경우 어떻게 처리할 지 **
+				log("닉네임을 다시 설정해주세요.");
+				return;
 			}
 
 			// 7. 키보드 입력 처리
-			System.out.print(nickname +":");
 			while (true) {
 				String input = sc.nextLine();
+				if(input == null) {
+					break;
+				}
 				if ("quit".equals(input)) {
 					// 8. quit 프로토콜 처리
-					pw.println("quit: "+input);
-					
-					//종료시 java.net.SocketException: Socket closed 
+					pw.println("quit");
 					break;
 				} else {
 					// 9. 메시지 처리
-					pw.println("message: "+input);
+					pw.println("message:"+input);
 				}
 			}
+			System.out.println("ChatClient 끝");
 		} catch (SocketException e) {
 			log("error: "+ e);
 		} catch (IOException e) {
@@ -65,9 +67,9 @@ public class ChatClient {
 				if (socket != null && !socket.isClosed()) {
 					socket.close();
 				}
-				if (sc != null) {
-					sc.close();
-				}
+//				if (sc != null) {
+//					sc.close();
+//				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

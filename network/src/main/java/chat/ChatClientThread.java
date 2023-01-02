@@ -16,6 +16,7 @@ public class ChatClientThread extends Thread {
 	public ChatClientThread(Socket socket) {
 		this.socket = socket;
 	}
+
 	@Override
 	public void run() {
 		try {
@@ -28,13 +29,20 @@ public class ChatClientThread extends Thread {
 					ChatClient.log("closed by server");
 					break;
 				}
-				System.out.println(data);
+				System.out.println("data :"+data);
 			}
 		} catch (UnsupportedEncodingException e) {
-			ChatClient.log("error" +e);
+			ChatClient.log("error: " +e);
 		} catch (IOException e) {
-			ChatClient.log("error" +e);
+//			ChatClient.log("error: " +e);
+		} finally {
+			if(!socket.isClosed()) {
+				try {
+					socket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
-
 }

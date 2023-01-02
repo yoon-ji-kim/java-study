@@ -33,57 +33,47 @@ public class ChatServerThread extends Thread {
 			//요청 처리
 			while(true) {
 				String request = br.readLine();
-				if(request == null) {
-					ChatServer.log("클라이언트로 부터 연결 끊김");
-					//quit보내지 않고 소켓을 닫은 경우
-					doQuit(pw);
-					break;
-				}
 				//프로토콜 분석
 				//요청명령: 파라미터1:파라미터2:..\r\n ->요청구분
-				String[] tokens = request.split(":");
-				if("join".equals(tokens[0])) {
-					doJoin(tokens[1], pw);
-				}else if("message".equals(tokens[0])) {
-					doMesasge(tokens[1]);
-				}else if("quit".equals(tokens[0])) {
+				if(request == null || request.equals("quit")) {
 					doQuit(pw);
+					break;
 				}else {
-					ChatServer.log("에러: 알 수 없는 요청 ("+tokens[0]+")");
+					String[] tokens = request.split(":");
+					if("join".equals(tokens[0])) {
+						doJoin(tokens[1], pw);
+					}else if("message".equals(tokens[0])) {
+						doMesasge(tokens[1]);
+					}else {
+						ChatServer.log("에러: 알 수 없는 요청 ("+tokens[0]+")");
+					}
 				}
 			}
-			
+//			if(!socket.getKeepAlive()) {
+//			System.out.println("closed by client");
+//		}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} 
 	}
 
 	private void doQuit(Writer writer) {
 		removeWriter(writer);
 		String data = nickname + "님이 퇴장 하였습니다.";
-		System.out.println(nickname+": 퇴장");
+		System.out.println(data);
 		broadcast(data);
 	}
 
 	private void removeWriter(Writer writer) {
-		int num =-1;
 		synchronized (listWriters) {
-			for (Writer w : listWriters) {
-				if(w.equals(writer)) {
-					num =listWriters.indexOf(writer);
-					break;
-				}
-			}
-			if(num != -1) {
-				listWriters.remove(num);				
-			}
+			listWriters.remove(writer);
 		}
 	}
 
 	private void doMesasge(String string) {
-		broadcast(string);
+		String data = nickname+":"+string; 
+		broadcast(data);
 		System.out.println(nickname+":"+string);
 	}
 
@@ -93,14 +83,14 @@ public class ChatServerThread extends Thread {
 		this.nickname = nickname;
 		
 		String data = nickname +"님이 참여하였습니다.";
-		System.out.println(nickname+": 참여");
+		System.out.println(data);
 		broadcast(data);
 		//writer pool에 저장
 		addWriter(writer);
 		//ack 방 참여 성공을 클라이언트에게 알리기
 		//중복 체크
 		
-		pw.println("join:OK");
+		pw.println("JOIN:OK");
 	}
 
 	private void addWriter(Writer writer) {
@@ -118,8 +108,8 @@ public class ChatServerThread extends Thread {
 			for(Writer writer: listWriters) {
 										//다운캐스팅
 				PrintWriter printWriter = (PrintWriter)writer;
-				printWriter.println(nickname+": "+data);
-//				printWriter.println(data);
+				printWriter.println(data);
+				printWriter.flush();
 			}
 		}
 	}
