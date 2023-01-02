@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.List;
 
 public class ChatServerThread extends Thread {
@@ -33,7 +34,7 @@ public class ChatServerThread extends Thread {
 			//요청 처리
 			while(true) {
 				String request = br.readLine();
-				System.out.println(request);
+//				System.out.println(request);
 				//프로토콜 분석
 				//요청명령: 파라미터1:파라미터2:..\r\n ->요청구분
 				if(request == null || request.equals("quit")) {
@@ -53,10 +54,22 @@ public class ChatServerThread extends Thread {
 //			if(!socket.getKeepAlive()) {
 //			System.out.println("closed by client");
 //		}
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		} catch (SocketException e) {
+//			e.printStackTrace();
+			ChatServer.log("closed by client");
 		} catch (IOException e) {
+		} finally {
+			if(socket != null && !socket.isClosed()) {
+				try {
+					socket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
+//		catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	private void doQuit(Writer writer) {
@@ -90,7 +103,6 @@ public class ChatServerThread extends Thread {
 		addWriter(writer);
 		//ack 방 참여 성공을 클라이언트에게 알리기
 		//중복 체크
-		
 		pw.println("JOIN:OK");
 	}
 

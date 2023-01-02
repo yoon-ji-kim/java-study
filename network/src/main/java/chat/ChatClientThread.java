@@ -25,6 +25,7 @@ public class ChatClientThread extends Thread {
 			pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"),true);
 			while(true) {
 				String data = br.readLine();
+				System.out.println("data...........:"+data);
 				if(data == null) {
 					ChatClient.log("closed by server");
 					break;
@@ -34,10 +35,9 @@ public class ChatClientThread extends Thread {
 		} catch (UnsupportedEncodingException e) {
 			ChatClient.log("error: " +e);
 		} catch (IOException e) {
-//			ChatClient.log("error: " +e);
-		} catch (Exception e) {
-			e.printStackTrace();
-			ChatClient.log("Exception: " +e);
+			ChatClient.log("closed by server");
+//			return;
+			System.exit(0);
 		} finally {
 			if(!socket.isClosed()) {
 				try {

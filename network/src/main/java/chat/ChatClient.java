@@ -16,10 +16,10 @@ public class ChatClient {
 
 	public static void main(String[] args) {
 		Socket socket = null;
-		Scanner sc = new Scanner(System.in);
+		Scanner sc = null;
 		try {
 			// 1. 키보드 연결
-//			sc = new Scanner(System.in);
+			sc = new Scanner(System.in);
 			// 2. socket 생성
 			socket = new Socket();
 			// 3. 연결
@@ -31,7 +31,6 @@ public class ChatClient {
 
 			// 5. join 프로토콜
 			System.out.print("닉네임>> ");
-			
 			String nickname = sc.nextLine();
 			pw.println("join:" + nickname);
 			String response = br.readLine();
@@ -47,9 +46,6 @@ public class ChatClient {
 			// 7. 키보드 입력 처리
 			while (true) {
 				String input = sc.nextLine();
-				if(input == null) {
-					break;
-				}
 				if ("quit".equals(input)) {
 					// 8. quit 프로토콜 처리
 					pw.println("quit");
@@ -60,9 +56,9 @@ public class ChatClient {
 				}
 			}
 		} catch (NoSuchElementException e) {
-			log("채팅방 강제 종료");
+			log("채팅방 (강제)종료");
 		} catch (SocketException e) {
-			log("error: "+ e);
+			log("closed by client");
 		} catch (IOException e) {
 			log("error: " + e);
 		} finally {
@@ -70,13 +66,15 @@ public class ChatClient {
 				if (socket != null && !socket.isClosed()) {
 					socket.close();
 				}
-//				if (sc != null) {
-//					sc.close();
-//				}
+					sc.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+		
+//		catch (NoSuchElementException e) {
+//			log("채팅방 강제 종료");
+//		} 
 	}
 
 	public static void log(String message) {
