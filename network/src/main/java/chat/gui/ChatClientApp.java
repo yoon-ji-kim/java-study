@@ -21,8 +21,17 @@ public class ChatClientApp {
 		}
 		
 		scanner.close();
-
-		new ChatWindow(name).show();
+		//1. create socket
+		//2. connect to server
+		//3. get iostream
+		//4. join protocol 진행
+//		String line = br.readLine(); //요청에 대한 응답받아서 ex)JOIN:OK 
+		String line = "JOIN:OK"; //요청에 대한 응답받아서 ex)JOIN:OK 
+		if("JOIN:OK".equals(line)) {
+			new ChatWindow(name).show();
+			return;
+		}
+		//OK 아닐경우 종료 또는 다시 실행하기
 	}
 
 }
