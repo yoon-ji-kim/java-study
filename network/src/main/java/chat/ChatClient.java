@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ChatClient {
@@ -30,6 +31,7 @@ public class ChatClient {
 
 			// 5. join 프로토콜
 			System.out.print("닉네임>> ");
+			
 			String nickname = sc.nextLine();
 			pw.println("join:" + nickname);
 			String response = br.readLine();
@@ -57,7 +59,8 @@ public class ChatClient {
 					pw.println("message:"+input);
 				}
 			}
-			System.out.println("ChatClient 끝");
+		} catch (NoSuchElementException e) {
+			log("채팅방 강제 종료");
 		} catch (SocketException e) {
 			log("error: "+ e);
 		} catch (IOException e) {

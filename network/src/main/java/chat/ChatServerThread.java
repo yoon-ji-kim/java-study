@@ -33,6 +33,7 @@ public class ChatServerThread extends Thread {
 			//요청 처리
 			while(true) {
 				String request = br.readLine();
+				System.out.println(request);
 				//프로토콜 분석
 				//요청명령: 파라미터1:파라미터2:..\r\n ->요청구분
 				if(request == null || request.equals("quit")) {
@@ -55,7 +56,7 @@ public class ChatServerThread extends Thread {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-		} 
+		}
 	}
 
 	private void doQuit(Writer writer) {

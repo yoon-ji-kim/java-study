@@ -29,12 +29,15 @@ public class ChatClientThread extends Thread {
 					ChatClient.log("closed by server");
 					break;
 				}
-				System.out.println("data :"+data);
+				System.out.println(data);
 			}
 		} catch (UnsupportedEncodingException e) {
 			ChatClient.log("error: " +e);
 		} catch (IOException e) {
 //			ChatClient.log("error: " +e);
+		} catch (Exception e) {
+			e.printStackTrace();
+			ChatClient.log("Exception: " +e);
 		} finally {
 			if(!socket.isClosed()) {
 				try {
