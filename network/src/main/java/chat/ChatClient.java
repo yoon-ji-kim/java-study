@@ -30,8 +30,13 @@ public class ChatClient {
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true);
 
 			// 5. join 프로토콜
-			System.out.print("닉네임>> ");
-			String nickname = sc.nextLine();
+			String nickname =null;
+			while(true) {
+				System.out.print("닉네임>> ");
+				nickname = sc.nextLine();
+				if(!nickname.isEmpty()) break;
+				System.out.println("닉네임을 입력하세요");
+			}
 			pw.println("join:" + nickname);
 			String response = br.readLine();
 			if(response.equals("JOIN:OK")) {

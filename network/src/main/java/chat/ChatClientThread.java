@@ -25,19 +25,19 @@ public class ChatClientThread extends Thread {
 			pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"),true);
 			while(true) {
 				String data = br.readLine();
-				System.out.println("data...........:"+data);
+				System.out.println(data);
 				if(data == null) {
 					ChatClient.log("closed by server");
 					break;
 				}
-				System.out.println(data);
 			}
 		} catch (UnsupportedEncodingException e) {
 			ChatClient.log("error: " +e);
 		} catch (IOException e) {
+			e.printStackTrace();
 			ChatClient.log("closed by server");
 //			return;
-			System.exit(0);
+//			System.exit(0);
 		} finally {
 			if(!socket.isClosed()) {
 				try {

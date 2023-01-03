@@ -45,7 +45,13 @@ public class ChatServerThread extends Thread {
 					if("join".equals(tokens[0])) {
 						doJoin(tokens[1], pw);
 					}else if("message".equals(tokens[0])) {
-						doMesasge(tokens[1]);
+						String message = null;
+						if(tokens.length ==1) {
+							message ="";
+						}else {
+							message = tokens[1];
+						}
+						doMesasge(message);
 					}else {
 						ChatServer.log("에러: 알 수 없는 요청 ("+tokens[0]+")");
 					}
@@ -57,6 +63,8 @@ public class ChatServerThread extends Thread {
 		} catch (SocketException e) {
 //			e.printStackTrace();
 			ChatServer.log("closed by client");
+			doQuit(pw);
+//			System.out.println(pw);
 		} catch (IOException e) {
 		} finally {
 			if(socket != null && !socket.isClosed()) {
@@ -94,16 +102,17 @@ public class ChatServerThread extends Thread {
 	private void doJoin(String nickname, Writer writer) {
 		//프로토콜
 		//join:nickname\r\n
-		this.nickname = nickname;
-		
-		String data = nickname +"님이 참여하였습니다.";
-		System.out.println(data);
-		broadcast(data);
-		//writer pool에 저장
-		addWriter(writer);
-		//ack 방 참여 성공을 클라이언트에게 알리기
-		//중복 체크
-		pw.println("JOIN:OK");
+		System.out.println("checkWriter");
+			this.nickname = nickname;
+			String data = nickname +"님이 참여하였습니다.";
+			System.out.println(data);
+			broadcast(data);
+			//writer pool에 저장
+			addWriter(writer);
+			//ack 방 참여 성공을 클라이언트에게 알리기
+			//중복 체크
+			pw.println("JOIN:OK");			
+//			pw.println("JOIN:ERROR");
 	}
 
 	private void addWriter(Writer writer) {
