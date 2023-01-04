@@ -102,7 +102,6 @@ public class ChatServerThread extends Thread {
 	private void doJoin(String nickname, Writer writer) {
 		//프로토콜
 		//join:nickname\r\n
-		System.out.println("checkWriter");
 			this.nickname = nickname;
 			String data = nickname +"님이 참여하였습니다.";
 			System.out.println(data);

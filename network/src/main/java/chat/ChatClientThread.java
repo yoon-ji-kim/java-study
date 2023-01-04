@@ -34,10 +34,10 @@ public class ChatClientThread extends Thread {
 		} catch (UnsupportedEncodingException e) {
 			ChatClient.log("error: " +e);
 		} catch (IOException e) {
-			e.printStackTrace();
-			ChatClient.log("closed by server");
+//			e.printStackTrace();
+//			ChatClient.log("closed by server");
 //			return;
-//			System.exit(0);
+			System.exit(0);
 		} finally {
 			if(!socket.isClosed()) {
 				try {

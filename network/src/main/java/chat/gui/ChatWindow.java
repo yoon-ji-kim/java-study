@@ -22,7 +22,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.SocketException;
 
-import chat.ChatServer;
 
 public class ChatWindow {
 	private PrintWriter pw = null;
@@ -150,6 +149,7 @@ public class ChatWindow {
 				// textarea 참조 inner클래스는 outer클래스에 접근 가능
 				while (true) {
 					String message = br.readLine();
+					System.out.println("message :"+ message);
 					if (message == null) {
 						System.out.println("closed");
 						break;
