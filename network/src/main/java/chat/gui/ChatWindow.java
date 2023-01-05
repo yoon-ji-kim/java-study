@@ -94,8 +94,8 @@ public class ChatWindow {
 			frame.setVisible(true);
 			frame.pack();
 			// IOStream 받아오기
-			br = new BufferedReader(new InputStreamReader(this.socket.getInputStream(), "utf-8"));
-			pw = new PrintWriter(new OutputStreamWriter(this.socket.getOutputStream(), "utf-8"), true);
+			br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
+			pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true);
 			// ChatClientThread 생성하고 실행
 			new ChatClientThread().start();
 		} catch (UnsupportedEncodingException e1) {
